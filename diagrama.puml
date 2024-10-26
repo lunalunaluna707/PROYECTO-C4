@@ -1,0 +1,55 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+!define FONTAWESOME6 https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v3.0.0/icons/font-awesome-6
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v3.0.0/icons/font-awesome
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v3.0.0/icons/devicons
+!define DEVICONS2 https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v3.0.0/icons/devicons2
+
+
+!include FONTAWESOME6/users.puml
+
+!include FONTAWESOME6/cloud.puml
+
+!include FONTAWESOME/mobile.puml
+
+AddElementTag("v1.0", $fontColor="#373634", $borderColor="#ffe557")
+
+Person(usuario, "Usuario (Empleado)", "Accede para consultar datos y modificar solo sus deberes", $sprite="users",  $tags="v1.0" )#ffde36
+Person(administrador, "Administrador", "Gestiona libremente las funcionalidades de la aplicacion", $sprite="users", $tags="v1.0")#ffde36
+
+System_Boundary(app,"APLICACION SJDSAJWEB"){
+Component(modulo_iniciosesion, "Modulo de inicio de sesion", "Maneja la autenticidad del usuario")#ffe557
+Component(modulo_citas, "Modulo de Citas", "Gestiona las citas de las maquinas") #ffe557
+Component(modulo_empleados, "Modulo de empleados", "Gestiona la informacion del empleado") #ffe557
+Component(modulo_mantenimiento, "Modulo de mantenimiento", "Gestiona el mantenimiento de las maquinas") #ffe557
+Component(modulo_maquinas, "Modulo de Maquinas", "Gestion de informacion las maquinas")#ffe557
+}
+rectangle "Servidor" as servidor {
+    Container(contenedor_empleados, "empleados", "") #b69800
+    Container(contenedor_citas, "Citas", "") #b69800
+    Container(contenedor_maquinas, "maquinas", "") #b69800
+    Container(contenedor_mantenimiento, "mantenimiento", "") #b69800
+}
+database "Base de datos" as bd{
+    node "Máquinas" as maquinas #ffff9a
+    node "Empleados" as empleados #ffff9a
+    node "Mantenimiento" as mantenimiento #ffff9a
+    node "Citas" as citas #ffff9a
+    
+}
+Rel(modulo_empleados, contenedor_empleados, "Llama a", "Métodos de empleados")
+Rel(modulo_citas, contenedor_citas, "Llama a", "Métodos de citas")
+Rel(modulo_maquinas, contenedor_maquinas, "Llama a", "Métodos de máquinas")
+Rel(modulo_mantenimiento, contenedor_mantenimiento, "Llama a", "Métodos de mantenimiento")
+
+Rel(usuario, app, "Ingresa a", "HTTPS") 
+Rel(administrador, app, "Ingresa a", "HTTPS")
+Rel(app, servidor, "Se comunica con", "HTTPS")
+Rel(servidor, bd,"Consultas a BD")
+Rel(bd, servidor,"Devuevle la respuesta")
+
+
+
+
+@enduml
