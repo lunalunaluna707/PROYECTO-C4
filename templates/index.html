@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    .custom-border{
+        border: 2px solid darkgoldenrod;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    h1{
+        color: gold;
+    }
+  </style>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">MVDL</a>
+          </div>
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="index.html">DIAGRAMA C4</a></li>
+          </ul>
+         
+        </div>
+      </nav>
+    <div class="container mt-5">
+       <div class="custom-border">
+         <h1>Aplicación web de gestión integral para administración y mantenimiento</h1>
+         <P>El proyecto consiste en el desarrollo de una aplicacion web destinada a la gestion de integral.
+            El objetivo es facilitar la accion de administración de empleados, maquinas, mantenmiento y citas.
+         </P>
+         <h3>C4:</h3>
+         <img id="imagenDiagrama" name="imagenDiagrama" src="{{ url_for('static_files', filename='diagrama.png') }}" alt="C4 del proyecto" style="max-width: 100%; height: auto;">
+       </div>    
+</div>
+</body>
+</html>
