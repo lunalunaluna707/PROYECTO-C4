@@ -10,7 +10,7 @@ app = Flask(__name__)
 class MiDiagrama(FileSystemEventHandler):
     def on_modified(self, event):
         if event.src_path.endswith("diagrama.puml"):
-            print("Generando imagen......")
+            print("Generando imagen...")
             imagen_modificada()
 
 @app.route('/')
@@ -22,25 +22,31 @@ def static_files(filename):
     return send_from_directory('static', filename)
 
 def imagen_modificada():
-    archivo = 'diagrama.puml'
-    imagenDiagrama = 'static/diagrama.png'  
-    comando = f'java -jar plantuml.jar {archivo}'
+    archivo = os.path.abspath('diagrama.puml') 
+    imagenDiagrama = os.path.abspath('static/diagrama.png')  
+    jar_path = os.path.abspath('static/plantuml.jar')  
+    print(f"Ruta del archivo .puml: {archivo}")
+    print(f"Ruta del JAR: {jar_path}")
+
+    comando = f'java -jar "{jar_path}" "{archivo}" -o static'
+
     try:
         subprocess.run(comando, shell=True, check=True)
         if os.path.exists(imagenDiagrama):
             print(f"Imagen generada: {imagenDiagrama}")
         else:
             print("Error al generar la imagen")
-    except subprocess.CalledProcessError:
-        print("Error al ejecutar comando")
+    except subprocess.CalledProcessError as e:
+        print(f"Error al ejecutar comando: {e}")
+
 
 if __name__ == '__main__':
     event_handler = MiDiagrama()
     observer = Observer()
     observer.schedule(event_handler, path='.', recursive=False)
     observer.start()
-    
-    app.run(debug=True)  
+
+    app.run(debug=True)
 
     try:
         while True:
