@@ -15,7 +15,7 @@
 
 AddElementTag("v1.0", $fontColor="#373634", $borderColor="#ffe557")
 
-Person(usuario, "Usuario (Empleado)", "Accede para consultar datos y modificar solo sus deberes", $sprite="users",  $tags="v1.0" )#ffde36
+Person(usuario, "Usuarioooooooo (Empleado)", "Accede para consultar datos y modificar solo sus deberes", $sprite="users",  $tags="v1.0" )#ffde36
 Person(administrador, "Administrador", "Gestiona libremente las funcionalidades de la aplicacion", $sprite="users", $tags="v1.0")#ffde36
 
 System_Boundary(app,"APLICACION SJDSAJWEB"){
