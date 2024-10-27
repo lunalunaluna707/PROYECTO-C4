@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, request
 import os
 import subprocess
 import time
@@ -16,6 +16,15 @@ class MiDiagrama(FileSystemEventHandler):
 @app.route('/')
 def formulario():
     return render_template('index.html')
+
+@app.route('/webhook', methods=['POST'])
+def github_webhook():
+    data = request.json
+    if 'commits' in data:
+        print("Cambio detectado en GitHub. Sincronizando...")
+        sincronizar_con_github()
+        imagen_modificada()
+    return 'OK', 200
 
 @app.route('/static/<path:filename>')
 def static_files(filename):
