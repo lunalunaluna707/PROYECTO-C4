@@ -17,23 +17,11 @@ class MiDiagrama(FileSystemEventHandler):
 def formulario():
     return render_template('index.html')
 
-@app.route('/webhook', methods=['POST'])
-def github_webhook():
-    data = request.json
-    if 'commits' in data:
-        print("Cambio detectado en GitHub. Sincronizando...")
-        sincronizar_con_github()
-        imagen_modificada()
-    return 'OK', 200
-
 def sincronizar_con_github():
-    repo_path = os.path.abspath('https://github.com/lunalunaluna707/PROYECTO-C4')  
-    os.chdir(repo_path) 
-
+    comando = 'bash script_sync.sh'  # En Windows sería 'script_sync.bat'
     try:
-        print("Sincronizando con GitHub...")
-        subprocess.run(['git', 'pull'], check=True)
-        print("Sincronización completa.")
+        subprocess.run(comando, shell=True, check=True)
+        print("Repositorio sincronizado con GitHub")
     except subprocess.CalledProcessError as e:
         print(f"Error al sincronizar con GitHub: {e}")
         
@@ -42,6 +30,7 @@ def static_files(filename):
     return send_from_directory('static', filename)
 
 def imagen_modificada():
+    sincronizar_con_github()
     archivo = os.path.abspath('diagrama.puml') 
     imagenDiagrama = os.path.abspath('static/diagrama.png')  
     jar_path = os.path.abspath('static/plantuml.jar')  
