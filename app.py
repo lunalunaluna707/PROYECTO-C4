@@ -26,6 +26,17 @@ def github_webhook():
         imagen_modificada()
     return 'OK', 200
 
+def sincronizar_con_github():
+    repo_path = os.path.abspath('https://github.com/lunalunaluna707/PROYECTO-C4')  
+    os.chdir(repo_path) 
+
+    try:
+        print("Sincronizando con GitHub...")
+        subprocess.run(['git', 'pull'], check=True)
+        print("Sincronización completa.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error al sincronizar con GitHub: {e}")
+        
 @app.route('/static/<path:filename>')
 def static_files(filename):
     return send_from_directory('static', filename)
